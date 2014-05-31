@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>event handler in javascript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+       <script type="text/javascript">                                   
+                       
+        function queryse(selector){
+            return document.querySelectorAll(selector);
+            //return document.querySelectorAll();
+        }
+        function t(){
+            le=queryse('li.tescliek');
+            console.log(le.length);
+            for(i=0;i<le.length;i++){
+                le[i].onclick=function(){getclasses(this)};
+                //alert(le[i].innerHTML);
+            }
+        }
+        function getclasses(obj){
+            alert(obj.className+' '+obj.innerHTML);
+            //alert(obj.className);
+        }
+        
+        window.onload=t;
+        //ele.onclick=clicklistener;
+        </script>
+    </head>
+    <body>
+       <ul id="links">
+    <li class="dynamic-link tescliek add">List item 1</li>
+    <li class="dynamic-link tescliek delete">List item 2</li>
+    <li class="dynamic-link tescliek test">List item 3</li>
+    <li class="dynamic-link tescliek add">List item 4</li>
+</ul>
+    </body>
+    
+</html>
