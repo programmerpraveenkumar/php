@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript">
+            function validation(formdetails,ele){
+                var parentForm;
+                var func={
+                    empty:function(val){
+                           if(val==null ||val=='' ){
+                                return false;
+                           }
+                           else{
+                               return true;
+                           }
+                    },//emtty method
+                    createquerystring:function(data){
+                        query='?test=null&';                       
+                        for(i=0;i<data.length;i++){
+                            query+=data[i]+'='+parentForm[data[i]].value+'&';
+                        }
+                        this.ajax(query);
+                    },
+                    ajax:function(val){
+                        if(formdetails['type']!='ajax'){
+                            loader.formdubmit();
+                            return false;
+                        }
+                            var xmlhttp;
+                            if (window.XMLHttpRequest)
+                              {// code for IE7+, Firefox, Chrome, Opera, Safari
+                              xmlhttp=new XMLHttpRequest();
+                              }
+                            else
+                              {// code for IE6, IE5
+                              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                              }
+
+                            
+                              xmlhttp.onreadystatechange=function()
+                              {
+                                  
+                              if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                                {
+                                    try{
+                                        server_response=JSON.parse(xmlhttp.responseText);
+                                        if(server_response['status']=='exist'){
+                                                    loader.show(server_response['error']);
+                                        }
+                                        else{
+                                            //loader.show(server_response['error']);
+                                            //alert('form is wating for submit');
+                                            loader.formdubmit();
+                                             
+                                        }
+                                    }
+                                    catch(e){
+                                        alert(xmlhttp.responseText+' '+e.message);
+                                    }
+                                
+                                        
+                                    }
+                             if(xmlhttp.readyState==4 && xmlhttp.status==404){
+                                alert('ERROR: file not found');
+                              }
+                            }
+                            
+                            
+                            xmlhttp.open("GET",'get.php'+val,true);
+                            xmlhttp.send();
+                           
+                         }//ajax function ends
+                };   //function(func) class ends
+                var loader={
+                    show:function(data){
+                        document.getElementById('formloader').innerHTML=data;
+                    },formdubmit:function(){
+                        parentForm.submit();
+                    }
+                };
+                try{
+                    loader.show('loading......');
+                    form=document.forms[formdetails['name']];
+                    parentForm=form;
+                    for(elements  in ele){                                      
+                        if(ele[elements]['1']=='ajax'){                            
+                            func.createquerystring(ele[elements]['0']);
+                              //func.ajax(ele[elements]['0']);
+                        }                           
+                        else{
+                             main_ele=form[ele[elements]['0']]
+                            val=main_ele.value;    
+                            if(!func[ele[elements]['1']](val)){
+                                main_ele.focus();                
+                                loader.show('plese fill this.. '+ele[elements]['1']);
+                                return false;
+                           }
+                        }   
+                  }                
+              }
+              catch(e){
+                alert(e.message);
+              }
+            }
+            </script>
+    </head>
+    <body>
+        <form name="test" action="show.php" method="post">
+            <input type="text"  value="" name="user" placeholder="user name"/>
+            <input type="text"  value="" name="email1" placeholder="email1"/>
+            <input type="text"  value="" name="email2" placeholder="email2"/>
+            <input type="text" name="pass"  value="" placeholder="pass"/>            
+            <input type="button" name="passs"  value="Login" onclick="validation({'name':'test','type':'ajax'},{'s':['user','empty'],'se':['email1','empty'],'se34':['email2','empty'],'ss':['pass','empty'],'ssajax':[['email1','email2'],'ajax']})" />            
+            <div id="formloader"></div>
+        </form>
+    </body>
+</html>
+
