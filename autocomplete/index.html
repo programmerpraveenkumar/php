@@ -1,0 +1,58 @@
+  <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style type="text/css">
+            ul{list-style: none;}
+            li{
+                text-decoration: none;
+            }
+            .current{
+             color:red;   
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload=function(){
+                //val=document.getElementById('get').getElementsByTagName('li')[0].className='current';
+                
+                    //alert(val);
+                    };
+            function getTest(){
+                val=document.getElementById('get').innerHTML;
+                alert(val);
+            }
+            start=0;
+            count=0;
+            total=5;
+            window.onkeydown=function(e){
+                document.getElementById('get').getElementsByTagName('li')[count].className='';
+                    if(e.keyCode=='40'){
+                       count++;
+                    }
+                    else if(e.keyCode=='38'){
+                        count--;
+                    }
+                    if(count>total || count<start){
+                        count=0;
+                    }
+                    else{
+                    
+                    }
+                    console.log(count);
+                    document.getElementById('get').getElementsByTagName('li')[count].className='current';
+                    //if(e.keyCode)
+                };
+        </script>
+    </head>
+    <body>
+        
+        <ul id="get">
+            <li class="current">first this values</li>
+            <li>second</li>
+            <li>three</li>            
+            <li>first</li>
+            <li>second</li>
+            <li>three</li>     
+        </ul>
+    </body>
+</html>
