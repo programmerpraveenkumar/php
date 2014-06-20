@@ -16,43 +16,78 @@
                 //val=document.getElementById('get').getElementsByTagName('li')[0].className='current';
                 
                     //alert(val);
-                    };
-            function getTest(){
-                val=document.getElementById('get').innerHTML;
-                alert(val);
-            }
+                    };            
             start=0;
             count=0;
             total=5;
-            window.onkeydown=function(e){
-                document.getElementById('get').getElementsByTagName('li')[count].className='';
-                    if(e.keyCode=='40'){
-                       count++;
+            data=["praveen","kumar1","kumar3","kumar2","ashoka","baboo",'hari1','hari2'];            
+           
+            function load(TextBox,e){         
+                
+                var loadcontent={
+                    loadinautocomplete:function(data){
+                         document.getElementById('get').innerHTML=data;
+                    },
+                    textBox:function(val){
+                     TextBox.value=val;   
                     }
-                    else if(e.keyCode=='38'){
-                        count--;
-                    }
-                    if(count>total || count<start){
-                        count=0;
-                    }
-                    else{
-                    
-                    }
-                    console.log(count);
-                    document.getElementById('get').getElementsByTagName('li')[count].className='current';
-                    //if(e.keyCode)
                 };
+                if(e.keyCode=='40' || e.keyCode=='38'){   
+                    console.log(count);
+                    document.getElementById('get').getElementsByTagName('li')[count].className='';
+                        if(e.keyCode=='40'){
+                          ++count; 
+                        }                    
+                        else if(e.keyCode=='38'){
+                            count--;
+                        }
+                         if(count>(total-0) || count<0){
+                            count=0;
+                        }
+                       console.log(count+''+total);                       
+                        document.getElementById('get').getElementsByTagName('li')[count].className='';
+                        
+                        Mainele=document.getElementById('get').getElementsByTagName('li')[count];
+                        loadcontent.textBox(Mainele.innerHTML);    
+                        Mainele.className='current';
+                }
+                else{
+                    total=0,getdata='';;    
+                    //document.getElementById('get').getElementsByTagName('li')[count].className='';
+                    val=TextBox.value;
+                    if(val==''){
+                        return false;
+                    }
+                    for(i=0;i<data.length;i++){
+                        if(data[i].substr(0,val.length)==val){
+                        getdata+='<li>'+data[i]+'</li>';
+                            //console.log(data[i]);
+                            total++;
+                        }
+
+                    }
+                        loadcontent.loadinautocomplete(getdata);
+                    }                   
+                    
+            
+               // console.log(total);
+                
+                    
+                    
+                    //console.log(count);
+                   
+                    //Mainele=document.getElementById('get').getElementsByTagName('li')[count];
+                    //TextBox.value=Mainele.innerHTML;
+                    //Mainele.className='current';
+                    //if(e.keyCode)                
+            }
         </script>
     </head>
     <body>
-        
+        <input type="text" value="" onkeyup="load(this,event)" />
         <ul id="get">
-            <li class="current">first this values</li>
-            <li>second</li>
-            <li>three</li>            
-            <li>first</li>
-            <li>second</li>
-            <li>three</li>     
+            
         </ul>
+        
     </body>
 </html>
