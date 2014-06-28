@@ -36,13 +36,19 @@ $entries=$xpath->query('/html/body//div');
 foreach ($entries as $entry){         
     switch($entry->getAttribute('class')){
         case "bprofile_head":
-            echo $dom->saveHTML($entry);
+            echo 'Shop Name:'.$dom->saveHTML($entry);
+            echo 'Shop Name '.$entry->nodeValue.'</br>';
+            //$link=$xpath->query('//a[@class="bprofile_head_link"]',$entry);
+            //echo 'Name '.$link->item(0)->nodeValue.'</br>';            
+            
         break;
         case "width100p_floatleft bprofile_content_div":
-            echo $dom->saveHTML($entry);
+            echo 'Address '.$entry->nodeValue.'</br>';
+            $phone=$xpath->query('//span[@class="pno_blue"]');
+            echo 'Contact No '.$phone->item(0)->nodeValue.'</br>';            
         break;
         case "pno_blue":
-            echo $dom->saveHTML($entry);
+            echo 'Contact No '.$entry->nodeValue.'</br>';
         break;
     }
 //    $main=$xpath->query('//div[@class]',$entry);            
