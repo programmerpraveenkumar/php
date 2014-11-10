@@ -35,21 +35,21 @@ $entries=$xpath->query('/html/body//div');
 
 foreach ($entries as $entry){         
     switch($entry->getAttribute('class')){
+        //bprofile_img_div allpad
         case "bprofile_head":
-            echo 'Shop Name:'.$dom->saveHTML($entry);
+            //echo 'Shop Name:'.$dom->saveHTML($entry);
             echo 'Shop Name '.$entry->nodeValue.'</br>';
-            //$link=$xpath->query('//a[@class="bprofile_head_link"]',$entry);
-            //echo 'Name '.$link->item(0)->nodeValue.'</br>';            
-            
+            $link=$xpath->query('.//a[@class="bprofile_head_link"]',$entry);
+            echo 'Link '.$link->item(0)->getAttribute('href').'</br>';                        
         break;
-        case "width100p_floatleft bprofile_content_div":
+        case "width100p_floatleft bprofile_content_div":            
+            //echo $dom->saveHTML($entry);
             echo 'Address '.$entry->nodeValue.'</br>';
-            $phone=$xpath->query('//span[@class="pno_blue"]');
-            echo 'Contact No '.$phone->item(0)->nodeValue.'</br>';            
-        break;
-        case "pno_blue":
-            echo 'Contact No '.$entry->nodeValue.'</br>';
-        break;
+            $phone=$xpath->query('.//span[@class="pno_blue"]',$entry);
+            echo 'Contact No '.$phone->item(0)->nodeValue.'</br>';                        
+            $phon=$xpath->query('.//img',$entry);                        
+            //echo 'Image Url <img src="'.$phon->item(0)->getAttribute('src').'"/> </br>';            
+        break;        
     }
 //    $main=$xpath->query('//div[@class]',$entry);            
 //    echo $main->item(0)->getAttribute('class').'</br>';

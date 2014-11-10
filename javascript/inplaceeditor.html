@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+        function edit(id){
+            mainid='load_content'+id;
+            ele=document.getElementById(mainid);            
+            ele.style.display='None';
+            text=document.createElement('textarea');
+            text.innerHTML=ele.innerHTML;
+            text.setAttribute("id","textcontent"+id);
+            document.getElementById('load_edit'+id).appendChild(text);
+            //document.getElementsByTagName('body').appendChild();
+        }
+        function save_(id){
+            inner=document.getElementById('textcontent'+id).innerHTML;
+            console.log(inner);
+            document.getElementById('load_content'+id).innerHTML=inner;
+        }
+        </script>
+    
+    </head>
+    <body>
+        <div id='load_edit1'></div>
+        <p id='load_content1'>sample content1</p>
+        <button onclick="edit('1')">Edit</button>
+        <button onclick="save_('1')">Save</button>
+        <div id='load_edit2'></div>
+        <p id='load_content2'>TODO write contentmpamlontent ontent sample content</p>
+        <button onclick="edit('2')">Edit</button>
+        <button onclick="save_('2')">Save</button>
+    </body>
+</html>
