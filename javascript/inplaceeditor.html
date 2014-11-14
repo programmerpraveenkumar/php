@@ -4,6 +4,16 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <script type="text/javascript">
+            function in_it(){
+                this.ini=function(){
+                    var allEl=document.getElementsByTagName("*");
+                    for(var i=0;i<allEl.length;i++){                        
+                        console.log(allEl[i].className);                        
+                    }
+                    
+             }
+            return this;
+            }
         function edit(id){
             mainid='load_content'+id;
             ele=document.getElementById(mainid);            
@@ -19,11 +29,13 @@
             console.log(inner);
             document.getElementById('load_content'+id).innerHTML=inner;
         }
+        //var i=new in_it();
+        window.onload=in_it().ini();
         </script>
     
     </head>
     <body>
-        <div id='load_edit1'></div>
+        <div class="test" id='load_edit1'></div>
         <p id='load_content1'>sample content1</p>
         <button onclick="edit('1')">Edit</button>
         <button onclick="save_('1')">Save</button>
