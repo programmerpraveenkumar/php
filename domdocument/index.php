@@ -37,6 +37,7 @@ $entries=$xpath->query('/html/body//div');
 $data_store=array();
 foreach ($entries as $entry){         
     switch($entry->getAttribute('class')){
+        //bprofile_img_div allpad
         case "bprofile_head":
             //echo 'Shop Name:'.$dom->saveHTML($entry);
             echo 'Shop Name '.$entry->nodeValue.'</br>';            
