@@ -4,6 +4,8 @@
     <head></head>
 <body>
 <?php
+$con=mysqli_connect('localhost','root','','data');
+set_time_limit(0);
 function getHTML($url,$timeout)
 { 
     try{
@@ -22,8 +24,8 @@ function getHTML($url,$timeout)
     }
 }
 $dom=new DOMDocument();
-//for(){
-$data=getHTML('http://www.justknow.in/Trichy/Classified-Profiles/AMC+Service+Provider/ct-274','50');
+for($i=1;$i<14;$i++){
+$data=getHTML('http://www.justknow.in/Trichy/Classified-Profiles/ky-Computer+Dealers/ct-263/pg-'.$i,'50');
 ////$data=  getHTML('http://localhost/php/dom/index.html','50');
 //echo $data;die();
 @$dom->loadHTML($data);
@@ -32,25 +34,43 @@ $data=getHTML('http://www.justknow.in/Trichy/Classified-Profiles/AMC+Service+Pro
 $xpath = new DomXpath($dom);
 $entries=$xpath->query('/html/body//div');            
 //$entries=$dom->getElementById('centerside');
-
+$data_store=array();
 foreach ($entries as $entry){         
     switch($entry->getAttribute('class')){
         case "bprofile_head":
-            echo 'Shop Name:'.$dom->saveHTML($entry);
-            echo 'Shop Name '.$entry->nodeValue.'</br>';
+            //echo 'Shop Name:'.$dom->saveHTML($entry);
+            echo 'Shop Name '.$entry->nodeValue.'</br>';            
+            $link=$xpath->query(".//a",$entry);            
+                    echo  "Link".$link->item(0)->getAttribute('href').'</br>';
+                    $data_store['link']=$link->item(0)->getAttribute('href');
+                   $data_store['shopname']=$entry->nodeValue;
             //$link=$xpath->query('//a[@class="bprofile_head_link"]',$entry);
             //echo 'Name '.$link->item(0)->nodeValue.'</br>';            
             
         break;
         case "width100p_floatleft bprofile_content_div":
-            echo 'Address '.$entry->nodeValue.'</br>';
-            $phone=$xpath->query('//span[@class="pno_blue"]');
-            echo 'Contact No '.$phone->item(0)->nodeValue.'</br>';            
+                //echo 'Shop Name:'.$dom->saveHTML($entry);
+                $data=explode('+',$entry->nodeValue);                
+                echo 'Address '.$data[0].'</br>';                 
+                $logo=$xpath->query(".//img",$entry);                
+                        echo $logo->item(0)->getAttribute('src').'</br>';                              
+            $phone=$xpath->query(".//span[@class='pno_blue']/text()",$entry);
+            echo 'Contact No from address '.$phone->item(0)->nodeValue.'</br>------------------------------------------------------</br>';            
+                $data_store['phone']=$phone->item(0)->nodeValue;
+                $data_store['logo']=$logo->item(0)->getAttribute('src'); 
+                $data_store['address']=$data[0];
+               $con->query("insert into computer_dealers(name,address,phone,link,logo)values('$data_store[shopname]','$data_store[address]','$data_store[phone]','$data_store[link]','$data_store[logo]')");
+            break;
+        case "bprofile_img_div allpad":
+            //$logo=$xpath->query(".//a",$entry);                
+            echo $entry->nodeValue;
         break;
         case "pno_blue":
-            echo 'Contact No '.$entry->nodeValue.'</br>';
+            echo 'Contact No '.$entry->nodeValue.'------------------------------------------------------</br>';
         break;
     }
+   // $con->query("insert into computer_dealers(name,address,phone,link,logo)values()");
+    
 //    $main=$xpath->query('//div[@class]',$entry);            
 //    echo $main->item(0)->getAttribute('class').'</br>';
 //    if($main->item(0)->getAttribute('class')=='bprofile_head')
@@ -70,7 +90,7 @@ foreach ($entries as $entry){
 //       echo '<img src="'.$image->item(0)->getAttribute("src").'" />';
     //}
         
-//}
+}
 die('');
 //$getdata=$dom->getElementById("source");
 $getda=$dom->getElementsByTagName('div');
